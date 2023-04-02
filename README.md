@@ -1,3 +1,5 @@
+### En cours de développement
+
 # Crypto-Tool
 
 Ce projet est un outil d'analyse technique pour les cryptomonnaies, qui utilise l'API Binance pour récupérer les données et effectuer divers calculs, tels que les niveaux de support et de résistance, les points pivots, et les statistiques sur 24 heures.
@@ -42,3 +44,78 @@ Voici comment calculer les niveaux de Fibonacci pour les supports et les résist
 ### Statistiques sur 24 heures
 
 Les statistiques sur 24 heures incluent la variation de prix, le pourcentage de variation, le prix le plus élevé et le prix le plus bas sur une période de 24 heures. Ces données sont récupérées directement à partir de l'API Binance.
+
+## Comment utiliser
+
+### Prérequis
+
+Node.js v16.15.0
+
+### Installation des dépendances
+
+1. Clonez le dépôt GitHub :
+
+```bash
+git clone https://github.com/RoXxIV/Crypto-tool.git
+```
+
+2. Installez les dépendances :
+
+```bash
+cd crypto-tool
+npm install
+```
+
+### Démarrez le projet
+
+1. Démarrez l\'application front-end :
+
+```bash
+cd crypto-tool
+npm run dev
+```
+
+2. Démarrez le serveur proxy :
+
+```bash
+cd crypto-tool/proxy
+node server.js
+```
+
+## Edit
+
+Pour ajouter des cryptos, modifier les intervalles de temps ou les devises....
+
+```bash
+crypto-tool/src/views/HomeView.vue
+```
+
+```bash
+<script>
+...
+export default {
+  name: "Home",
+  data() {
+    return {
+      ...
+      cryptos: [
+        "BTC",
+        "ETH",
+        "SOL",
+        "MINA",
+        "BNB",
+        "SHIB",
+        "ADA",
+        "PROM",
+        "BURGER",
+        "ATOM",
+      ],
+      quotes: ["USDT", "EUR"],
+      intervals: ["1h", "4h", "1d", "1w"],
+      ...
+    };
+  },
+  ...
+};
+</script>
+```

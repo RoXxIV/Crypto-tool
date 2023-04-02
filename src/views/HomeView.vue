@@ -3,7 +3,7 @@
     <!-- Formulaire -->
     <div id="Form-crypto-settings">
       <!-- Choix crypto -->
-      <div id="crypto-choice">
+      <div id="crypto-choice" class="field">
         <label for="crypto">Crypto-monnaie :</label>
         <select v-model="selectedCrypto" id="crypto">
           <option v-for="crypto in cryptos" :key="crypto" :value="crypto">
@@ -12,7 +12,7 @@
         </select>
       </div>
       <!-- Choix Devise -->
-      <div id="quote-choice">
+      <div id="quote-choice" class="field">
         <label for="quote">Devise :</label>
         <select v-model="selectedQuote" id="quote">
           <option v-for="quote in quotes" :key="quote" :value="quote">
@@ -21,7 +21,7 @@
         </select>
       </div>
       <!-- Choix Intervalle de temps -->
-      <div id="interval-choice">
+      <div id="interval-choice" class="field">
         <label for="interval">Intervalle :</label>
         <select v-model="selectedInterval" id="interval">
           <option
@@ -36,15 +36,20 @@
     </div>
     <!-- Mettre à jour les données -->
     <div>
-      <button @click="fetchData">Mettre à jour</button>
+      <button @click="fetchData" class="btn">Mettre à jour</button>
     </div>
     <!-- paramètres choisis et prix actuel -->
-    <h2>{{ selectedCrypto }}/{{ selectedQuote }} "{{ selectedInterval }}"</h2>
+    <h2>
+      {{ selectedCrypto }}/{{ selectedQuote }} en vue "{{ selectedInterval }}"
+    </h2>
     <p>Prix actuel : {{ currentPrice }}</p>
     <p>
-      Variation sur 24h : {{ priceChange.toFixed(2) }} ({{
-        priceChangePercent.toFixed(2)
-      }}%)
+      Variation sur 24h :
+      <span :class="getColor(priceChange)"
+        >{{ priceChange.toFixed(2) }} ({{
+          priceChangePercent.toFixed(2)
+        }}%)</span
+      >
     </p>
     <p>24h Haut : {{ highPrice.toFixed(2) }}</p>
     <p>24h Bas : {{ lowPrice.toFixed(2) }}</p>
@@ -56,7 +61,7 @@
           <h3>Niveaux de support :</h3>
           <ul>
             <li v-for="(support, index) in supports" :key="index">
-              Support {{ index + 1 }}: {{ support.price.toFixed(2) }}
+              S{{ index + 1 }}: {{ support.price.toFixed(2) }}
             </li>
           </ul>
         </div>
@@ -65,7 +70,7 @@
           <h3>Niveaux de résistance :</h3>
           <ul>
             <li v-for="(resistance, index) in resistances" :key="index">
-              Résistance {{ index + 1 }}: {{ resistance.price.toFixed(2) }}
+              R{{ index + 1 }}: {{ resistance.price.toFixed(2) }}
             </li>
           </ul>
         </div>
@@ -73,20 +78,20 @@
       <div id="with-pivots">
         <!-- Niveaux de support des points pivots -->
         <div>
-          <h3>Niveaux de support des points pivots :</h3>
+          <h3>Niveaux de support<br />des points pivots :</h3>
           <ul>
-            <li>Support 1: {{ pivotPoints.s1.toFixed(2) }}</li>
-            <li>Support 2: {{ pivotPoints.s2.toFixed(2) }}</li>
-            <li>Support 3: {{ pivotPoints.s3.toFixed(2) }}</li>
+            <li>S1: {{ pivotPoints.s1.toFixed(2) }}</li>
+            <li>S2: {{ pivotPoints.s2.toFixed(2) }}</li>
+            <li>S3: {{ pivotPoints.s3.toFixed(2) }}</li>
           </ul>
         </div>
         <!-- Niveaux de résistance des points pivots -->
         <div>
-          <h3>Niveaux de résistance des points pivots :</h3>
+          <h3>Niveaux de résistance<br />des points pivots :</h3>
           <ul>
-            <li>Résistance 1: {{ pivotPoints.r1.toFixed(2) }}</li>
-            <li>Résistance 2: {{ pivotPoints.r2.toFixed(2) }}</li>
-            <li>Résistance 3: {{ pivotPoints.r3.toFixed(2) }}</li>
+            <li>R1: {{ pivotPoints.r1.toFixed(2) }}</li>
+            <li>R2: {{ pivotPoints.r2.toFixed(2) }}</li>
+            <li>R3: {{ pivotPoints.r3.toFixed(2) }}</li>
           </ul>
         </div>
       </div>
@@ -279,14 +284,102 @@ export default {
         console.error("Error fetching data from Binance API:", error);
       }
     },
+    getColor(price) {
+      if (price > 0) {
+        return "text-green";
+      } else if (price === 0) {
+        return "text-gray";
+      } else {
+        return "text-red";
+      }
+    },
   },
   created() {
     this.fetchData();
   },
 };
 </script>
-<style scoped>
-ul {
-  list-style: none;
+<style lang="scss" scoped>
+/* Fonts __________*/
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&family=Space+Mono:wght@400;700&display=swap");
+
+section {
+  width: 50vw;
+  margin: auto;
+  font-family: "Roboto", sans-serif;
+  color: #2c3138;
+  h2,
+  h3 {
+    font-family: "Oswald", sans-serif;
+  }
+  #Form-crypto-settings {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px auto;
+    .field {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      label {
+        font-family: "Oswald", sans-serif;
+      }
+      select {
+        background: #fafafa;
+        border: none;
+        border-bottom: 1px solid #2c3138;
+        transition: border-color 0.3s;
+        font-size: 16px;
+        &:focus {
+          border-color: #3b82f6;
+        }
+        &::placeholder {
+          color: #3b82f6;
+        }
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .btn {
+    padding: 7px 14px;
+    border: 1px solid #2c3138;
+    border-radius: 0.25rem;
+    background-color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  #results {
+    display: flex;
+    justify-content: space-around;
+    text-align: left;
+    ul {
+      list-style: none;
+    }
+  }
+}
+.text-green {
+  color: green;
+}
+.text-gray {
+  color: #2c3138;
+}
+.text-red {
+  color: red;
 }
 </style>
