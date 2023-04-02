@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&family=Space+Mono:wght@400;700&display=swap");
+* {
+  outline: none;
+  text-decoration: none;
+  font-family: "Space Mono", monospace;
+}
+html {
+  max-width: 100vw;
+  font-size: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}

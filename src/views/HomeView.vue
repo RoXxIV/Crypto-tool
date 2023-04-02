@@ -38,71 +38,33 @@
     <div>
       <button @click="fetchData" class="btn">Mettre à jour</button>
     </div>
-    <!-- paramètres choisis et prix actuel -->
-    <h2>
-      {{ selectedCrypto }}/{{ selectedQuote }} en vue "{{ selectedInterval }}"
-    </h2>
-    <p>Prix actuel : {{ currentPrice }}</p>
-    <p>
-      Variation sur 24h :
-      <span :class="getColor(priceChange)"
-        >{{ priceChange.toFixed(2) }} ({{
-          priceChangePercent.toFixed(2)
-        }}%)</span
-      >
-    </p>
-    <p>24h Haut : {{ highPrice.toFixed(2) }}</p>
-    <p>24h Bas : {{ lowPrice.toFixed(2) }}</p>
 
-    <div id="results">
-      <div id="without-pivots">
-        <!-- Niveaux de support -->
-        <div>
-          <h3>Niveaux de support :</h3>
-          <ul>
-            <li v-for="(support, index) in supports" :key="index">
-              S{{ index + 1 }}: {{ support.price.toFixed(2) }}
-            </li>
-          </ul>
-        </div>
-        <!-- Niveaux de résistance -->
-        <div>
-          <h3>Niveaux de résistance :</h3>
-          <ul>
-            <li v-for="(resistance, index) in resistances" :key="index">
-              R{{ index + 1 }}: {{ resistance.price.toFixed(2) }}
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div id="with-pivots">
-        <!-- Niveaux de support des points pivots -->
-        <div>
-          <h3>Niveaux de support<br />des points pivots :</h3>
-          <ul>
-            <li>S1: {{ pivotPoints.s1.toFixed(2) }}</li>
-            <li>S2: {{ pivotPoints.s2.toFixed(2) }}</li>
-            <li>S3: {{ pivotPoints.s3.toFixed(2) }}</li>
-          </ul>
-        </div>
-        <!-- Niveaux de résistance des points pivots -->
-        <div>
-          <h3>Niveaux de résistance<br />des points pivots :</h3>
-          <ul>
-            <li>R1: {{ pivotPoints.r1.toFixed(2) }}</li>
-            <li>R2: {{ pivotPoints.r2.toFixed(2) }}</li>
-            <li>R3: {{ pivotPoints.r3.toFixed(2) }}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <!-- paramètres choisis et prix actuel -->
+    <CryptoDetails
+      :selected-crypto="selectedCrypto"
+      :selected-quote="selectedQuote"
+      :selected-interval="selectedInterval"
+      :current-price="currentPrice"
+      :price-change="priceChange"
+      :price-change-percent="priceChangePercent"
+      :high-price="highPrice"
+      :low-price="lowPrice"
+    />
+    <Results
+      :supports="supports"
+      :resistances="resistances"
+      :pivot-points="pivotPoints"
+    />
   </section>
 </template>
 
 <script>
 import cryptoServices from "../services/cryptoServices";
+import CryptoDetails from "../components/Home/CryptoDetails.vue";
+import Results from "../components/Home/Results.vue";
 export default {
   name: "Home",
+  components: { CryptoDetails, Results },
   data() {
     return {
       data: [],
@@ -284,15 +246,6 @@ export default {
         console.error("Error fetching data from Binance API:", error);
       }
     },
-    getColor(price) {
-      if (price > 0) {
-        return "text-green";
-      } else if (price === 0) {
-        return "text-gray";
-      } else {
-        return "text-red";
-      }
-    },
   },
   created() {
     this.fetchData();
@@ -300,9 +253,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-/* Fonts __________*/
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&family=Space+Mono:wght@400;700&display=swap");
-
 section {
   width: 50vw;
   margin: auto;
@@ -315,6 +265,7 @@ section {
   #Form-crypto-settings {
     display: flex;
     justify-content: space-around;
+    width: 50%;
     margin: 30px auto;
     .field {
       display: flex;
@@ -322,13 +273,16 @@ section {
       align-items: center;
       label {
         font-family: "Oswald", sans-serif;
+        font-size: 1.2em;
+        margin-bottom: 10px;
       }
       select {
+        width: 100%;
         background: #fafafa;
         border: none;
         border-bottom: 1px solid #2c3138;
         transition: border-color 0.3s;
-        font-size: 16px;
+        font-size: 1.1em;
         &:focus {
           border-color: #3b82f6;
         }
@@ -347,6 +301,8 @@ section {
     }
   }
   .btn {
+    margin: auto;
+    display: block;
     padding: 7px 14px;
     border: 1px solid #2c3138;
     border-radius: 0.25rem;
@@ -364,22 +320,23 @@ section {
     -ms-user-select: none;
     user-select: none;
   }
-  #results {
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  #Form-crypto-settings {
     display: flex;
-    justify-content: space-around;
-    text-align: left;
-    ul {
-      list-style: none;
-    }
+    flex-direction: column;
+    width: 100%;
   }
 }
-.text-green {
-  color: green;
-}
-.text-gray {
-  color: #2c3138;
-}
-.text-red {
-  color: red;
+@media (max-width: 767px) {
+  section {
+    width: 100%;
+    #Form-crypto-settings {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  }
 }
 </style>

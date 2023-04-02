@@ -1,0 +1,94 @@
+<template>
+  <div id="results">
+    <div id="without-pivots">
+      <!-- Niveaux de support -->
+      <div>
+        <h3>Niveaux de support :</h3>
+        <ul v-if="supports.length">
+          <li v-for="(support, index) in supports" :key="index">
+            S{{ index + 1 }}: {{ support.price.toFixed(2) }}
+          </li>
+        </ul>
+        <p v-else>N/A</p>
+      </div>
+      <!-- Niveaux de résistance -->
+      <div>
+        <h3>Niveaux de résistance :</h3>
+        <ul v-if="resistances.length">
+          <li v-for="(resistance, index) in resistances" :key="index">
+            R{{ index + 1 }}: {{ resistance.price.toFixed(2) }}
+          </li>
+        </ul>
+        <p v-else>N/A</p>
+      </div>
+    </div>
+    <div id="with-pivots">
+      <!-- Niveaux de support des points pivots -->
+      <div>
+        <h3>Niveaux de support<br />des points pivots :</h3>
+        <ul>
+          <li>S1: {{ pivotPoints.s1.toFixed(2) }}</li>
+          <li>S2: {{ pivotPoints.s2.toFixed(2) }}</li>
+          <li>S3: {{ pivotPoints.s3.toFixed(2) }}</li>
+        </ul>
+      </div>
+      <!-- Niveaux de résistance des points pivots -->
+      <div>
+        <h3>Niveaux de résistance<br />des points pivots :</h3>
+        <ul>
+          <li>R1: {{ pivotPoints.r1.toFixed(2) }}</li>
+          <li>R2: {{ pivotPoints.r2.toFixed(2) }}</li>
+          <li>R3: {{ pivotPoints.r3.toFixed(2) }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "results",
+  props: {
+    supports: Array,
+    resistances: Array,
+    pivotPoints: Object,
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+};
+</script>
+<style lang="scss" scoped>
+#results {
+  #without-pivots,
+  #with-pivots {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #2c3138;
+    border-radius: 0.25rem;
+    margin: 20px auto;
+    text-align: center;
+    ul {
+      list-style: none;
+    }
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  #without-pivots,
+  #with-pivots {
+    flex-direction: column;
+
+    padding: 10px 30px;
+  }
+}
+@media (max-width: 767px) {
+  #without-pivots,
+  #with-pivots {
+    flex-direction: column;
+    text-align: left !important;
+    font-size: 0.8em;
+    padding: 10px;
+  }
+}
+</style>
