@@ -1,5 +1,34 @@
 <template>
   <div id="results">
+    <div>
+      <button @click="explicationToggle = !explicationToggle">
+        explications support et de résistance
+      </button>
+      <div v-if="explicationToggle">
+        <p>
+          "Les niveaux de support et de résistance sont déterminés en se basant
+          sur des observations historiques de prix et d'autres méthodes, comme
+          les retracements de Fibonacci. Ils représentent des zones clés où les
+          acheteurs et les vendeurs sont susceptibles d'entrer en action,
+          influençant ainsi le mouvement des prix."
+        </p>
+      </div>
+      <br />
+      <button @click="pivotExplicationToggle = !pivotExplicationToggle">
+        explications niveaux de support et de résistance des points pivots
+      </button>
+      <div v-if="pivotExplicationToggle">
+        <p>
+          "Les niveaux de support et de résistance des points pivots sont
+          calculés à partir de formules mathématiques qui prennent en compte les
+          prix hauts, bas et de clôture d'une période de temps spécifique. Ils
+          permettent d'identifier des zones de prix où les acheteurs et les
+          vendeurs pourraient intervenir, offrant ainsi des opportunités de
+          trading basées sur les points pivots."
+        </p>
+      </div>
+    </div>
+
     <div id="without-pivots">
       <!-- Niveaux de support -->
       <div>
@@ -54,7 +83,10 @@ export default {
     pivotPoints: Object,
   },
   data() {
-    return {};
+    return {
+      pivotExplicationToggle: false,
+      explicationToggle: false,
+    };
   },
   methods: {},
 };

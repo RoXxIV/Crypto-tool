@@ -38,7 +38,7 @@
     <div>
       <button @click="fetchData" class="btn">Mettre à jour</button>
     </div>
-
+    <IndicatorRsi :rsi="rsi" />
     <!-- paramètres choisis et prix actuel -->
     <CryptoDetails
       :selected-crypto="selectedCrypto"
@@ -62,9 +62,10 @@
 import cryptoServices from "../services/cryptoServices";
 import CryptoDetails from "../components/Home/CryptoDetails.vue";
 import Results from "../components/Home/Results.vue";
+import IndicatorRsi from "../components/Home/IndicatorRsi.vue";
 export default {
   name: "Home",
-  components: { CryptoDetails, Results },
+  components: { CryptoDetails, Results, IndicatorRsi },
   data() {
     return {
       data: [],
@@ -100,6 +101,7 @@ export default {
       priceChangePercent: 0,
       highPrice: 0,
       lowPrice: 0,
+      rsi: null,
     };
   },
   methods: {
@@ -212,6 +214,50 @@ export default {
       }
     },
     /**
+     * Calcule l'indice de force relative (RSI) pour un ensemble de données de prix sur 14 jours.
+     * @param {Array} data - Tableau de données de prix, où chaque élément est un tableau avec les prix d'ouverture, de clôture, les plus hauts et les plus bas.
+     * @param {number} period - La période sur laquelle calculer le RSI (par défaut : 14).
+     * @returns {number} - La valeur RSI calculée.
+     */
+    calculateRSI(data, period = 14) {
+      const gains = [];
+      const losses = [];
+
+      for (let i = 1; i < data.length; i++) {
+        const previousClose = parseFloat(data[i - 1][4]);
+        const currentClose = parseFloat(data[i][4]);
+
+        const change = currentClose - previousClose;
+
+        if (change >= 0) {
+          gains.push(change);
+          losses.push(0);
+        } else {
+          gains.push(0);
+          losses.push(Math.abs(change));
+        }
+      }
+
+      const avgGain = gains.slice(0, period).reduce((a, b) => a + b) / period;
+      const avgLoss = losses.slice(0, period).reduce((a, b) => a + b) / period;
+
+      let rs = avgGain / avgLoss;
+      let rsi = 100 - 100 / (1 + rs);
+
+      for (let i = period; i < gains.length; i++) {
+        const gain = gains[i];
+        const loss = losses[i];
+
+        const newAvgGain = (avgGain * (period - 1) + gain) / period;
+        const newAvgLoss = (avgLoss * (period - 1) + loss) / period;
+
+        rs = newAvgGain / newAvgLoss;
+        rsi = 100 - 100 / (1 + rs);
+      }
+
+      return rsi;
+    },
+    /**
      * Récupère les données de prix, les supports, les résistances, les points pivots et les statistiques sur 24 heures pour un symbole de crypto-monnaie.
      */
     async fetchData() {
@@ -242,6 +288,9 @@ export default {
         );
         this.highPrice = parseFloat(statsResponse.data.highPrice);
         this.lowPrice = parseFloat(statsResponse.data.lowPrice);
+
+        // Calcule la valeur RSI en utilisant les données du prix et met à jour la propriété "rsi" du composant
+        this.rsi = this.calculateRSI(this.data);
       } catch (error) {
         console.error("Error fetching data from Binance API:", error);
       }
