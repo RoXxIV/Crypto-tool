@@ -8,7 +8,7 @@ axios.create({
 });
 
 // URL de base de l'API de proxy
-const PROXY_API = "http://localhost:3001";
+const PROXY_API = "https://eh-crypto-tool.herokuapp.com/";
 
 class CryptoService {
   /**
