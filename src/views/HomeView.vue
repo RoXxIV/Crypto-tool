@@ -9,7 +9,9 @@
         <label for="crypto" class="block mb-2 text-md font-medium text-white"
           >Crypto-monnaie :</label
         >
+        <div v-if="loading" class="skeleton w-full h-8 rounded-lg"></div>
         <select
+          v-else
           v-model="selectedCrypto"
           @change="fetchData"
           class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg block p-1.5"
@@ -24,7 +26,9 @@
         <label for="quote" class="block mb-2 text-md font-medium text-white"
           >Devise :</label
         >
+        <div v-if="loading" class="skeleton w-full h-8 rounded-lg"></div>
         <select
+          v-else
           v-model="selectedQuote"
           @change="fetchData"
           class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg block p-1.5"
@@ -39,7 +43,9 @@
         <label for="interval" class="block mb-2 text-md font-medium text-white"
           >Intervalle :</label
         >
+        <div v-if="loading" class="skeleton w-full h-8 rounded-lg"></div>
         <select
+          v-else
           v-model="selectedInterval"
           @change="fetchData"
           class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg block p-1.5"
@@ -54,10 +60,12 @@
         </select>
       </div>
     </div>
-
-    <IndicatorRsi :rsi="rsi" />
+    <div v-if="loading" class="skeleton w-full h-8 rounded-lg my-2"></div>
+    <IndicatorRsi v-else :rsi="rsi" />
     <!-- paramètres choisis et prix actuel -->
+    <div v-if="loading" class="skeleton w-full h-32 rounded-lg my-2"></div>
     <CryptoDetails
+      v-else
       :selected-crypto="selectedCrypto"
       :selected-quote="selectedQuote"
       :selected-interval="selectedInterval"
@@ -67,12 +75,15 @@
       :high-price="highPrice"
       :low-price="lowPrice"
     />
+    <div v-if="loading" class="skeleton w-full h-64 rounded-lg my-2"></div>
     <Results
+      v-else
       :supports="supports"
       :resistances="resistances"
       :pivot-points="pivotPoints"
     />
-    <p>
+    <p v-if="loading" class="skeleton w-1/2 h-6 rounded-lg my-2"></p>
+    <p v-else>
       Recommandation : {{ shouldInvest() }} (beta, ne pas prendre en compte)
     </p>
   </div>
@@ -121,6 +132,7 @@ export default {
       highPrice: 0,
       lowPrice: 0,
       rsi: null,
+      loading: false,
     };
   },
   methods: {
@@ -334,6 +346,7 @@ export default {
      */
 
     async fetchData() {
+      this.loading = true;
       try {
         // Créer le symbole à partir des cryptos et devises sélectionnées
         const symbol = this.selectedCrypto + this.selectedQuote;
@@ -364,7 +377,9 @@ export default {
 
         // Calcule la valeur RSI en utilisant les données du prix et met à jour la propriété "rsi" du composant
         this.rsi = this.calculateRSI(this.data);
+        this.loading = false;
       } catch (error) {
+        this.loading = false;
         console.error("Error fetching data from Binance API:", error);
       }
     },
@@ -375,6 +390,20 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
 @media (min-width: 768px) and (max-width: 1024px) {
 }
 @media (max-width: 767px) {
