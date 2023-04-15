@@ -1,11 +1,19 @@
 // Importation des dépendances
 const express = require("express");
+const serveStatic = require("serve-static");
+const path = require("path");
 const cors = require("cors");
 const axios = require("axios");
 
 // Création de l'application Express et activation de CORS
 const app = express();
 app.use(cors());
+
+app.use("/", serveStatic(path.join(__dirname, "../dist")));
+
+app.get(/.*/, function (req, res) {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
+});
 
 // URL de base de l'API Binance
 const BINANCE_API = "https://api.binance.com";
