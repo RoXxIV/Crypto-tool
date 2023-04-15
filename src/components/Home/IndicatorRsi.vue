@@ -1,10 +1,19 @@
 <template>
-  <p>
-    <strong>Indicateur RSI :</strong> Le RSI actuel est de
-    <span :class="getRsiColor(rsi.toFixed(2))">{{ rsi.toFixed(2) }}</span
-    >. Un RSI inférieur à 30 indique un actif sur-vendu, et un RSI supérieur à
-    70 indique un actif sur-acheté.
-  </p>
+  <div class="relative inline-flex items-center my-3">
+    <p class="text-white">
+      Indicateur RSI :
+      <span :class="getRsiColor(rsi.toFixed(2))">{{ rsi.toFixed(2) }}</span>
+    </p>
+    <sup class="text-xs text-white cursor-help ml-1 group">
+      <span
+        class="absolute invisible group-hover:visible bg-white p-2 rounded shadow-md text-xs -mt-6 -mr-6 text-black whitespace-nowrap"
+      >
+        Un RSI inférieur à 30 indique un actif sur-vendu, et un RSI supérieur à
+        70 indique un actif sur-acheté.
+      </span>
+      ?
+    </sup>
+  </div>
 </template>
 <script>
 export default {

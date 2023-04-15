@@ -1,5 +1,7 @@
 <template>
-  <header><h1>Crypto-Tool</h1></header>
+  <header class="border-b border-white">
+    <h1 class="text-white text-2xl">Crypto-Tool</h1>
+  </header>
 </template>
 
 <script>
@@ -10,13 +12,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-header {
-  border-bottom: 1px solid #2c3138;
-  h1 {
-    font-family: "Staatliches", cursive;
-    margin-left: 20px;
-    color: #2c3138;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

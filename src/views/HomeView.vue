@@ -1,31 +1,49 @@
 <template>
-  <section>
+  <div class="w-3/4 mx-auto">
     <!-- Formulaire -->
-    <div id="Form-crypto-settings">
-      <p>Recommandation : {{ shouldInvest() }}</p>
-
+    <div
+      class="flex flex-col items-center sm:grid sm:grid-cols-3 sm:gap-4 w-full my-3"
+    >
       <!-- Choix crypto -->
-      <div id="crypto-choice" class="field">
-        <label for="crypto">Crypto-monnaie :</label>
-        <select v-model="selectedCrypto" id="crypto">
+      <div class="w-full sm:mb-0 mb-4">
+        <label for="crypto" class="block mb-2 text-md font-medium text-white"
+          >Crypto-monnaie :</label
+        >
+        <select
+          v-model="selectedCrypto"
+          @change="fetchData"
+          class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg block p-1.5"
+        >
           <option v-for="crypto in cryptos" :key="crypto" :value="crypto">
             {{ crypto }}
           </option>
         </select>
       </div>
       <!-- Choix Devise -->
-      <div id="quote-choice" class="field">
-        <label for="quote">Devise :</label>
-        <select v-model="selectedQuote" id="quote">
+      <div class="w-full sm:mb-0 mb-4">
+        <label for="quote" class="block mb-2 text-md font-medium text-white"
+          >Devise :</label
+        >
+        <select
+          v-model="selectedQuote"
+          @change="fetchData"
+          class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg block p-1.5"
+        >
           <option v-for="quote in quotes" :key="quote" :value="quote">
             {{ quote }}
           </option>
         </select>
       </div>
       <!-- Choix Intervalle de temps -->
-      <div id="interval-choice" class="field">
-        <label for="interval">Intervalle :</label>
-        <select v-model="selectedInterval" id="interval">
+      <div class="w-full">
+        <label for="interval" class="block mb-2 text-md font-medium text-white"
+          >Intervalle :</label
+        >
+        <select
+          v-model="selectedInterval"
+          @change="fetchData"
+          class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg block p-1.5"
+        >
           <option
             v-for="interval in intervals"
             :key="interval"
@@ -36,10 +54,7 @@
         </select>
       </div>
     </div>
-    <!-- Mettre à jour les données -->
-    <div>
-      <button @click="fetchData" class="btn">Mettre à jour</button>
-    </div>
+
     <IndicatorRsi :rsi="rsi" />
     <!-- paramètres choisis et prix actuel -->
     <CryptoDetails
@@ -57,7 +72,10 @@
       :resistances="resistances"
       :pivot-points="pivotPoints"
     />
-  </section>
+    <p>
+      Recommandation : {{ shouldInvest() }} (beta, ne pas prendre en compte)
+    </p>
+  </div>
 </template>
 
 <script>
@@ -80,7 +98,6 @@ export default {
         "SOL",
         "MINA",
         "BNB",
-        "SHIB",
         "ADA",
         "PROM",
         "BURGER",

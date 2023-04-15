@@ -1,5 +1,5 @@
 <template>
-  <div id="selected-crypto-details">
+  <section class="my-3 text-white">
     <h2>
       {{ selectedCrypto }}/{{ selectedQuote }}
       <sup>{{ selectedInterval }}</sup>
@@ -19,7 +19,7 @@
     <p>
       24h Bas : <span class="text-red">{{ lowPrice.toFixed(2) }}</span>
     </p>
-  </div>
+  </section>
 </template>
 
 <script>
