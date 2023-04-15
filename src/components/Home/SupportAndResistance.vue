@@ -49,7 +49,9 @@
             R{{ index + 1 }}: {{ resistance.price.toFixed(2) }}
           </li>
         </ul>
-        <p v-else>N/A</p>
+        <ul v-else class="grid grid-cols-4 gap-4">
+          <li class="p-5 bg-white">N/A</li>
+        </ul>
       </div>
     </div>
     <div>

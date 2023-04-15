@@ -2,13 +2,14 @@
 
 # Crypto-Tool
 
-Ce projet est un outil d'analyse technique pour les cryptomonnaies, qui utilise l'API Binance pour récupérer les données et effectuer divers calculs, tels que les niveaux de support et de résistance, les points pivots, et les statistiques sur 24 heures.
+Ce projet est un outil d'analyse technique pour les cryptomonnaies, qui utilise l'API Binance pour récupérer les données et effectuer divers calculs, tels que les niveaux de support et de résistance, les points pivots, le RSI et les statistiques sur 24 heures.
 
 ## Fonctionnalités
 
 - Récupération des données de prix en temps réel et historiques à partir de l'API Binance
 - Calcul des niveaux de support et de résistance en utilisant les retracements de Fibonacci
 - Calcul des points pivots
+- Calcul et affichage de l'indicateur RSI (Relative Strength Index)
 - Affichage des statistiques sur 24 heures (variation de prix, pourcentage de variation, prix haut et bas)
 
 ## Calculs
@@ -44,6 +45,10 @@ Voici comment calculer les niveaux de Fibonacci pour les supports et les résist
 ### Statistiques sur 24 heures
 
 Les statistiques sur 24 heures incluent la variation de prix, le pourcentage de variation, le prix le plus élevé et le prix le plus bas sur une période de 24 heures. Ces données sont récupérées directement à partir de l'API Binance.
+
+### RSI
+
+Calcul et affichage de l'indicateur RSI (Relative Strength Index) pour évaluer la force d'une tendance et identifier les conditions de surachat et de survente sur les marchés de cryptomonnaies
 
 ## Comment utiliser
 
@@ -119,3 +124,9 @@ export default {
 };
 </script>
 ```
+
+## À venir
+
+- Ajout d'autres indicateurs techniques (MACD, moyennes mobiles, etc.)
+- Optimisation des performances et réduction du temps de chargement
+- Amélioration de la documentation et du guide d'utilisation

@@ -61,10 +61,11 @@
       </div>
     </div>
     <div v-if="loading" class="skeleton w-full h-8 rounded-lg my-2"></div>
+    <!-- Affiche le RSI actuel -->
     <IndicatorRsi v-else :rsi="rsi" />
-    <!-- paramètres choisis et prix actuel -->
+    <!-- paramètres choisis et prix actuel et variations -->
     <div v-if="loading" class="skeleton w-full h-32 rounded-lg my-2"></div>
-    <CryptoDetails
+    <PriceAndVariations
       v-else
       :selected-crypto="selectedCrypto"
       :selected-quote="selectedQuote"
@@ -76,14 +77,16 @@
       :low-price="lowPrice"
     />
     <div v-if="loading" class="skeleton w-full h-64 rounded-lg my-2"></div>
-    <Results
+    <!-- Affiche les support et resistance ainsi que leur points pivots -->
+    <SupportAndResistance
       v-else
       :supports="supports"
       :resistances="resistances"
       :pivot-points="pivotPoints"
     />
+    <!-- en cours de développement -->
     <p v-if="loading" class="skeleton w-1/2 h-6 rounded-lg my-2"></p>
-    <p v-else>
+    <p v-else class="py-3">
       Recommandation : {{ shouldInvest() }} (beta, ne pas prendre en compte)
     </p>
   </div>
@@ -91,12 +94,12 @@
 
 <script>
 import cryptoServices from "../services/cryptoServices";
-import CryptoDetails from "../components/Home/CryptoDetails.vue";
-import Results from "../components/Home/Results.vue";
+import PriceAndVariations from "../components/Home/PriceAndVariations.vue";
+import SupportAndResistance from "../components/Home/SupportAndResistance.vue";
 import IndicatorRsi from "../components/Home/IndicatorRsi.vue";
 export default {
   name: "Home",
-  components: { CryptoDetails, Results, IndicatorRsi },
+  components: { PriceAndVariations, SupportAndResistance, IndicatorRsi },
   data() {
     return {
       data: [],
@@ -137,7 +140,7 @@ export default {
   },
   methods: {
     /**
-     * Récupère le prix actuel d'un symbole de crypto-monnaie et le stocke dans 'currentPrice'.
+     * Récupère le prix actuel d'une crypto-monnaie et le stocke dans 'currentPrice'.
      *
      * @param {string} symbol - Le symbole de la crypto-monnaie (ex: "BTCUSDT").
      */
@@ -226,7 +229,7 @@ export default {
       };
     },
     /**
-     * Récupère les statistiques sur 24 heures pour un symbole de crypto-monnaie et les stocke dans les variables correspondantes.
+     * Récupère les statistiques sur 24 heures pour une crypto-monnaie et les stocke dans les variables correspondantes.
      *
      * @param {string} symbol - Le symbole de la crypto-monnaie (ex: "BTCUSDT").
      */
@@ -294,9 +297,7 @@ export default {
      * - Investir : RSI en survente (< 30), prix proche d'un niveau de support et prix au-dessus du point pivot S1.
      * - Ne pas investir : RSI en surachat (> 70), prix proche d'un niveau de résistance et prix en dessous du point pivot R1.
      * - Attendre : Dans tous les autres cas.
-     *
-     * Cette méthode est un exemple basique et peut être modifiée pour mieux correspondre à votre stratégie de trading.
-     * Vous pouvez ajouter ou modifier les conditions en fonction de vos besoins.
+     * en cours de développement !!!
      *
      * @returns {string} La recommandation d'action à prendre : "Investir", "Ne pas investir" ou "Attendre".
      */
