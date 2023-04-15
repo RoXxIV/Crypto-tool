@@ -162,6 +162,14 @@ export default {
      * @returns {Object} - Un objet contenant les tableaux des niveaux de support et de résistance.
      */
     findSupportAndResistance(data) {
+      // Check if the data is an array before proceeding
+      if (!Array.isArray(data)) {
+        console.error("Data is not an array:", data);
+        return {
+          supports: [],
+          resistances: [],
+        };
+      }
       // Extraire les prix bas et haut de chaque kline (bougies)
       const lowPrices = data.map((kline) => parseFloat(kline[3]));
       const highPrices = data.map((kline) => parseFloat(kline[2]));
