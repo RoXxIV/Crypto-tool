@@ -379,6 +379,7 @@ export default {
         // Calcule la valeur RSI en utilisant les données du prix et met à jour la propriété "rsi" du composant
         this.rsi = this.calculateRSI(this.data);
         this.loading = false;
+        console.log("Data from Binance API:", response.data);
       } catch (error) {
         this.loading = false;
         console.error("Error fetching data from Binance API:", error);
