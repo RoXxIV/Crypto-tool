@@ -52,13 +52,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-#selected-crypto-details {
-  text-align: center;
-  margin-top: 30px;
-  p {
-    font-size: 1.1em;
-  }
-}
 .text-green {
   color: green;
 }
@@ -71,8 +64,5 @@ export default {
 @media (min-width: 768px) and (max-width: 1024px) {
 }
 @media (max-width: 767px) {
-  #selected-crypto-details {
-    font-size: 0.8em;
-  }
 }
 </style>

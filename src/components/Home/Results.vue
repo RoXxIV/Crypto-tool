@@ -92,35 +92,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-#results {
-  #without-pivots,
-  #with-pivots {
-    display: flex;
-    justify-content: space-around;
-    border: 1px solid #2c3138;
-    border-radius: 0.25rem;
-    margin: 20px auto;
-    text-align: center;
-    ul {
-      list-style: none;
-    }
-  }
-}
 @media (min-width: 768px) and (max-width: 1024px) {
-  #without-pivots,
-  #with-pivots {
-    flex-direction: column;
-
-    padding: 10px 30px;
-  }
 }
 @media (max-width: 767px) {
-  #without-pivots,
-  #with-pivots {
-    flex-direction: column;
-    text-align: left !important;
-    font-size: 0.8em;
-    padding: 10px;
-  }
 }
 </style>

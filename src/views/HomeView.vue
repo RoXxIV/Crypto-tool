@@ -2,6 +2,8 @@
   <section>
     <!-- Formulaire -->
     <div id="Form-crypto-settings">
+      <p>Recommandation : {{ shouldInvest() }}</p>
+
       <!-- Choix crypto -->
       <div id="crypto-choice" class="field">
         <label for="crypto">Crypto-monnaie :</label>
@@ -258,8 +260,62 @@ export default {
       return rsi;
     },
     /**
-     * Récupère les données de prix, les supports, les résistances, les points pivots et les statistiques sur 24 heures pour un symbole de crypto-monnaie.
+     * Analyse les indicateurs et niveaux clés pour déterminer s'il faut investir, ne pas investir ou attendre.
+     * Cette méthode se base sur les critères suivants :
+     * - Investir : RSI en survente (< 30), prix proche d'un niveau de support et prix au-dessus du point pivot S1.
+     * - Ne pas investir : RSI en surachat (> 70), prix proche d'un niveau de résistance et prix en dessous du point pivot R1.
+     * - Attendre : Dans tous les autres cas.
+     *
+     * Cette méthode est un exemple basique et peut être modifiée pour mieux correspondre à votre stratégie de trading.
+     * Vous pouvez ajouter ou modifier les conditions en fonction de vos besoins.
+     *
+     * @returns {string} La recommandation d'action à prendre : "Investir", "Ne pas investir" ou "Attendre".
      */
+    shouldInvest() {
+      // Conditions pour investir
+      const isRSIOverSold = this.rsi < 30;
+      const isPriceNearSupport = this.supports.some(
+        (support) =>
+          Math.abs(this.currentPrice - support.price) < this.currentPrice * 0.01
+      );
+      const isPriceAbovePivot = this.currentPrice > this.pivotPoints.s1;
+
+      // Conditions pour ne pas investir
+      const isRSIOverBought = this.rsi > 70;
+      const isPriceNearResistance = this.resistances.some(
+        (resistance) =>
+          Math.abs(this.currentPrice - resistance.price) <
+          this.currentPrice * 0.01
+      );
+      const isPriceBelowPivot = this.currentPrice < this.pivotPoints.r1;
+
+      if (isRSIOverSold && isPriceNearSupport && isPriceAbovePivot) {
+        return "Investir";
+      } else if (
+        isRSIOverBought &&
+        isPriceNearResistance &&
+        isPriceBelowPivot
+      ) {
+        return "Ne pas investir";
+      } else {
+        return "Attendre";
+      }
+    },
+    /**
+     * Récupère les données de prix, les niveaux de support et de résistance, les points pivots, le prix actuel et les statistiques sur 24 heures pour un symbole de crypto-monnaie.
+     * La méthode effectue les opérations suivantes :
+     * 1. Crée le symbole à partir des cryptos et devises sélectionnées.
+     * 2. Définit l'intervalle de temps à utiliser.
+     * 3. Récupère les données de prix pour le symbole et l'intervalle sélectionnés.
+     * 4. Trouve les niveaux de support et de résistance à partir des données.
+     * 5. Calcule les points pivots à partir des données.
+     * 6. Récupère le prix actuel pour le symbole sélectionné.
+     * 7. Récupère les statistiques sur 24 heures pour le symbole sélectionné, y compris le changement de prix, le pourcentage de changement de prix, le prix le plus élevé et le prix le plus bas.
+     * 8. Calcule la valeur RSI en utilisant les données du prix et met à jour la propriété "rsi" du composant.
+     *
+     * @throws {Error} Si une erreur se produit lors de la récupération des données de l'API Binance.
+     */
+
     async fetchData() {
       try {
         // Créer le symbole à partir des cryptos et devises sélectionnées
@@ -302,90 +358,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-section {
-  width: 50vw;
-  margin: auto;
-  font-family: "Roboto", sans-serif;
-  color: #2c3138;
-  h2,
-  h3 {
-    font-family: "Oswald", sans-serif;
-  }
-  #Form-crypto-settings {
-    display: flex;
-    justify-content: space-around;
-    width: 50%;
-    margin: 30px auto;
-    .field {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      label {
-        font-family: "Oswald", sans-serif;
-        font-size: 1.2em;
-        margin-bottom: 10px;
-      }
-      select {
-        width: 100%;
-        background: #fafafa;
-        border: none;
-        border-bottom: 1px solid #2c3138;
-        transition: border-color 0.3s;
-        font-size: 1.1em;
-        &:focus {
-          border-color: #3b82f6;
-        }
-        &::placeholder {
-          color: #3b82f6;
-        }
-        &::-webkit-outer-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-        &::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-      }
-    }
-  }
-  .btn {
-    margin: auto;
-    display: block;
-    padding: 7px 14px;
-    border: 1px solid #2c3138;
-    border-radius: 0.25rem;
-    background-color: white;
-    font-family: "Roboto", sans-serif;
-    font-weight: bold;
-    letter-spacing: 1px;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-}
-
 @media (min-width: 768px) and (max-width: 1024px) {
-  #Form-crypto-settings {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
 }
 @media (max-width: 767px) {
-  section {
-    width: 100%;
-    #Form-crypto-settings {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-  }
 }
 </style>
