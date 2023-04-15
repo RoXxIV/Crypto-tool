@@ -17,12 +17,18 @@ class CryptoService {
    * @param {string} symbol - Le symbole de la crypto-monnaie (ex: "BTCUSDT").
    * @returns {Promise} - La réponse de l'API sous forme de promesse.
    */
-  getCurrentPrice(symbol) {
-    return axios.get(`${PROXY_API}/api/v3/ticker/price`, {
-      params: {
-        symbol,
-      },
-    });
+  async getCurrentPrice(symbol) {
+    try {
+      const response = await axios.get(`${PROXY_API}/api/v3/ticker/price`, {
+        params: {
+          symbol,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error("Erreur lors de la récupération du prix actuel:", error);
+      throw error;
+    }
   }
 
   /**
