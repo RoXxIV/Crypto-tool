@@ -8,7 +8,7 @@ axios.create({
 });
 
 // URL de base de l'API de proxy
-const PROXY_API = "https://eh-crypto-tool.herokuapp.com";
+const PROXY_API = "https://www.binance.com";
 
 class CryptoService {
   /**
