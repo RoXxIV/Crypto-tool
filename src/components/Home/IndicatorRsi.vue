@@ -1,18 +1,25 @@
 <template>
-  <div class="relative inline-flex items-center my-3">
+  <div class="mt-4">
     <p class="text-white">
       Indicateur RSI :
       <span :class="getRsiColor(rsi.toFixed(2))">{{ rsi.toFixed(2) }}</span>
-    </p>
-    <sup class="text-xs text-white cursor-help ml-1 group">
-      <span
-        class="absolute invisible group-hover:visible bg-white p-2 rounded shadow-md text-xs -mt-6 -mr-6 text-black whitespace-nowrap"
+      <sup
+        class="text-xm text-white cursor-help ml-1 group cursor-pointer"
+        @click="showInfoRsi = !showInfoRsi"
       >
-        Un RSI inférieur à 30 indique un actif sur-vendu, et un RSI supérieur à
-        70 indique un actif sur-acheté.
-      </span>
-      ?
-    </sup>
+        ?
+      </sup>
+    </p>
+
+    <br />
+    <p
+      v-show="showInfoRsi"
+      class="text-white text-xs leading-relaxed mb-4"
+      @click="showInfoRsi = false"
+    >
+      Un RSI inférieur à 30 indique un actif sur-vendu, et un RSI supérieur à 70
+      indique un actif sur-acheté.
+    </p>
   </div>
 </template>
 <script>
@@ -22,7 +29,9 @@ export default {
     rsi: Number,
   },
   data() {
-    return {};
+    return {
+      showInfoRsi: false,
+    };
   },
   methods: {
     getRsiColor(rsi) {

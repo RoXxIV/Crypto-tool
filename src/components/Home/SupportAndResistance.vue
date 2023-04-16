@@ -24,7 +24,10 @@
       </p>
       <div>
         <h3 class="text-white text-lg pb-2">Niveaux de support :</h3>
-        <ul v-if="supports.length" class="grid grid-cols-4 gap-4">
+        <ul
+          v-if="supports.length"
+          class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4"
+        >
           <li
             v-for="(support, index) in supports"
             :key="index"
@@ -33,14 +36,17 @@
             S{{ index + 1 }}: {{ support.price.toFixed(2) }}
           </li>
         </ul>
-        <ul v-else class="grid grid-cols-4 gap-4">
+        <ul v-else class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4">
           <li class="p-5 bg-white">N/A</li>
         </ul>
       </div>
       <!-- Niveaux de résistance -->
       <div>
         <h3 class="text-white text-lg pb-2">Niveaux de résistance :</h3>
-        <ul v-if="resistances.length" class="grid grid-cols-4 gap-4">
+        <ul
+          v-if="resistances.length"
+          class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4"
+        >
           <li
             v-for="(resistance, index) in resistances"
             :key="index"
@@ -49,7 +55,7 @@
             R{{ index + 1 }}: {{ resistance.price.toFixed(2) }}
           </li>
         </ul>
-        <ul v-else class="grid grid-cols-4 gap-4">
+        <ul v-else class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4">
           <li class="p-5 bg-white">N/A</li>
         </ul>
       </div>
@@ -81,7 +87,7 @@
         <h3 class="text-white text-lg pb-2">
           Niveaux de support des points pivots :
         </h3>
-        <ul class="grid grid-cols-4 gap-4">
+        <ul class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4">
           <li class="p-5 bg-white">S1: {{ pivotPoints.s1.toFixed(2) }}</li>
           <li class="p-5 bg-white">S2: {{ pivotPoints.s2.toFixed(2) }}</li>
           <li class="p-5 bg-white">S3: {{ pivotPoints.s3.toFixed(2) }}</li>
@@ -92,7 +98,7 @@
         <h3 class="text-white text-lg pb-2">
           Niveaux de résistance des points pivots :
         </h3>
-        <ul class="grid grid-cols-4 gap-4">
+        <ul class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4">
           <li class="p-5 bg-white">R1: {{ pivotPoints.r1.toFixed(2) }}</li>
           <li class="p-5 bg-white">R2: {{ pivotPoints.r2.toFixed(2) }}</li>
           <li class="p-5 bg-white">R3: {{ pivotPoints.r3.toFixed(2) }}</li>
