@@ -29,6 +29,10 @@ const BINANCE_API = "https://api.binance.com";
 app.get("/api/v3/klines", async (req, res) => {
   try {
     const response = await axios.get(`${BINANCE_API}/api/v3/klines`, {
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+      },
       params: req.query,
     });
     res.json(response.data);
