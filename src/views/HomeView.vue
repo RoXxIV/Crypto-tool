@@ -119,7 +119,7 @@ export default {
         "DOT",
       ],
       quotes: ["USDT", "EUR"],
-      intervals: ["1s", "1h", "4h", "1d", "1w"],
+      intervals: ["1s", "1m", "3m", "5", "1h", "4h", "1d", "1w"],
       selectedCrypto: "BTC",
       selectedQuote: "USDT",
       selectedInterval: "4h",
